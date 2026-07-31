@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#075f35">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Administração — Limão Azedo</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <img src="/logo.webp" alt="Limão Azedo Confinamento">
+      <div>
+        <span>Painel administrativo</span>
+        <strong>Gestão de lotes</strong>
+      </div>
+    </header>
+
+    <section id="loginScreen" class="screen active">
+      <div class="card login-card">
+        <div class="badge">Acesso restrito</div>
+        <h1>Entrar no painel</h1>
+        <p>Somente o administrador autorizado pode alterar os dados.</p>
+
+        <form id="loginForm">
+          <label>Usuário
+            <input id="adminUser" type="text" autocomplete="username" required>
+          </label>
+
+          <label>Senha
+            <input id="adminPassword" type="password" autocomplete="current-password" required>
+          </label>
+
+          <div id="loginMessage" class="message"></div>
+          <button class="primary" type="submit">Entrar</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="adminScreen" class="screen">
+      <div class="session-bar">
+        <div>
+          <span>Administrador</span>
+          <strong id="adminName">—</strong>
+        </div>
+        <button id="logoutButton" class="secondary" type="button">Sair</button>
+      </div>
+
+      <section class="card">
+        <div class="section-title">
+          <span>Consulta</span>
+          <h2>Localizar lote</h2>
+        </div>
+
+        <form id="searchForm" class="grid two">
+          <label>Curral
+            <input id="searchCurral" type="text" inputmode="numeric" required>
+          </label>
+
+          <label>Carimbo
+            <input id="searchCarimbo" type="text" inputmode="numeric" required>
+          </label>
+
+          <button class="primary full" type="submit">Buscar lote</button>
+        </form>
+
+        <div id="searchMessage" class="message"></div>
+      </section>
+
+      <section id="lotSection" class="hidden">
+        <section class="card summary">
+          <div><span>Cliente</span><strong id="summaryCliente">—</strong></div>
+          <div><span>Lote</span><strong id="summaryLote">—</strong></div>
+          <div><span>ID</span><strong id="summaryId">—</strong></div>
+        </section>
+
+        <section class="card">
+          <div class="section-title">
+            <span>Atualização</span>
+            <h2>Dados do lote</h2>
+          </div>
+
+          <form id="lotForm" class="grid two">
+            <label>Animais doentes
+              <input id="animaisDoentes" type="number" min="0" step="1">
+            </label>
+
+            <label>Na enfermaria
+              <input id="animaisEnfermaria" type="number" min="0" step="1">
+            </label>
+
+            <label>Mortes
+              <input id="mortes" type="number" min="0" step="1">
+            </label>
+
+            <label>Consumo de MS (kg)
+              <input id="consumoMS" type="text" inputmode="decimal">
+            </label>
+
+            <label>GMD projetado
+              <input id="gmdProjetado" type="text" inputmode="decimal">
+            </label>
+
+            <label>Dieta
+              <input id="dieta" type="text">
+            </label>
+
+            <label>Modalidade
+              <select id="modalidade">
+                <option value="">Selecione</option>
+                <option>Diária</option>
+                <option>Arroba Produzida</option>
+                <option>Consumo de MS</option>
+              </select>
+            </label>
+
+            <label>Status
+              <select id="status">
+                <option value="">Selecione</option>
+                <option>Ativo</option>
+                <option>Encerrado</option>
+              </select>
+            </label>
+
+            <label>Previsão de abate
+              <input id="dataAbate" type="date">
+            </label>
+
+            <button class="primary full" type="submit">Salvar alterações</button>
+          </form>
+
+          <div id="lotMessage" class="message"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-title">
+            <span>Sanidade</span>
+            <h2>Registrar tratamento</h2>
+          </div>
+
+          <form id="treatmentForm" class="grid two">
+            <label>Data
+              <input id="tratData" type="date" required>
+            </label>
+
+            <label>Quantidade de animais
+              <input id="tratQuantidade" type="number" min="1" step="1" required>
+            </label>
+
+            <label>Produto
+              <input id="tratProduto" type="text" required>
+            </label>
+
+            <label>Dose por animal (ml)
+              <input id="tratDose" type="text" inputmode="decimal" required>
+            </label>
+
+            <label>Volume total (ml)
+              <input id="tratVolume" type="text" inputmode="decimal" required>
+            </label>
+
+            <label>Custo total (R$)
+              <input id="tratCusto" type="text" inputmode="decimal" required>
+            </label>
+
+            <label class="full">Motivo
+              <input id="tratMotivo" type="text" required>
+            </label>
+
+            <label class="full">Observações
+              <textarea id="tratObservacoes" rows="3"></textarea>
+            </label>
+
+            <button class="primary full" type="submit">Registrar tratamento</button>
+          </form>
+
+          <div id="treatmentMessage" class="message"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-title">
+            <span>Sanidade</span>
+            <h2>Histórico de tratamentos</h2>
+          </div>
+          <div id="treatmentHistory" class="history">
+            <p class="empty">Nenhum tratamento carregado.</p>
+          </div>
+        </section>
+      </section>
+    </section>
+
+    <footer>
+      <strong>Limão Azedo Confinamento</strong>
+      <span>Painel administrativo</span>
+    </footer>
+  </main>
+
+  <div id="loading" class="loading hidden">
+    <div class="spinner"></div>
+    <p>Processando...</p>
+  </div>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

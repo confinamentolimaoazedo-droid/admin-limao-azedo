@@ -1,0 +1,8 @@
+O painel visual e o Worker estão prontos.
+
+Na próxima etapa será necessário atualizar o Código.gs para aceitar:
+- buscarLoteAdmin
+- atualizarLote
+- registrarTratamento
+
+Não use o painel para gravar dados antes dessa atualização.

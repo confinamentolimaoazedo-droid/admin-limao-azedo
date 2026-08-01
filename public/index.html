@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#075f35">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Limão Azedo Admin V5</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon-192.png">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <img src="/logo.png" alt="Limão Azedo">
+      <div><span>Painel administrativo</span><strong>Limão Azedo V5</strong></div>
+    </header>
+
+    <section id="loginScreen" class="screen active">
+      <div class="card login-card">
+        <div class="badge">Acesso restrito</div>
+        <h1>Entrar no painel</h1>
+        <form id="loginForm">
+          <label>Usuário<input id="adminUser" autocomplete="username" required></label>
+          <label>Senha<input id="adminPassword" type="password" autocomplete="current-password" required></label>
+          <div id="loginMessage" class="message"></div>
+          <button class="primary" type="submit">Entrar</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="adminScreen" class="screen">
+      <div class="session-bar">
+        <div><span>Administrador</span><strong id="adminName">—</strong></div>
+        <button id="logoutButton" class="secondary" type="button">Sair</button>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab active" data-view="dashboardView">Resumo</button>
+        <button class="tab" data-view="newLotView">Novo lote</button>
+        <button class="tab" data-view="lotView">Lote</button>
+        <button class="tab" data-view="movementView">Movimentações</button>
+        <button class="tab" data-view="financeView">Financeiro</button>
+        <button class="tab" data-view="healthView">Sanidade</button>
+      </nav>
+
+      <section id="dashboardView" class="view active">
+        <div class="section-title"><span>Visão geral</span><h2>Resumo do confinamento</h2></div>
+        <div id="dashboardMessage" class="message"></div>
+        <div class="metrics">
+          <article><span>Lotes ativos</span><strong id="mLotes">—</strong></article>
+          <article><span>Animais atuais</span><strong id="mAnimais">—</strong></article>
+          <article><span>Animais doentes</span><strong id="mDoentes">—</strong></article>
+          <article><span>Na enfermaria</span><strong id="mEnfermaria">—</strong></article>
+          <article><span>Receita modalidades</span><strong id="mReceita">—</strong></article>
+          <article><span>Protocolo</span><strong id="mProtocolo">—</strong></article>
+          <article><span>Sanidade</span><strong id="mSanidade">—</strong></article>
+          <article><span>Total acumulado</span><strong id="mTotal">—</strong></article>
+        </div>
+        <section class="card">
+          <div class="section-title"><span>Operação</span><h2>Lotes ativos</h2></div>
+          <div id="activeLots" class="lots-list"><p class="empty">Carregando...</p></div>
+        </section>
+      </section>
+
+      <section id="newLotView" class="view">
+        <section class="card">
+          <div class="section-title"><span>Cadastro</span><h2>Adicionar novo lote</h2></div>
+          <form id="newLotForm" class="grid two">
+            <label class="full">Identificação automática do lote
+              <input id="newAutomaticId" value="Carregando..." readonly aria-readonly="true">
+              <small>Gerada automaticamente pelo sistema e confirmada ao salvar.</small>
+            </label>
+            <label>Cliente<input id="newCliente" required></label>
+            <label>Identificação do lote<input id="newLote" required></label>
+            <label>Curral<input id="newCurral" required></label>
+            <label>Carimbo<input id="newCarimbo" required></label>
+            <label>Data de entrada<input id="newDataEntrada" type="date" required></label>
+            <label>Previsão de abate<input id="newDataAbate" type="date" required></label>
+            <label>Cabeças iniciais<input id="newCabecas" type="number" min="1" required></label>
+            <label>Peso médio de entrada (kg)<input id="newPesoEntrada" inputmode="decimal" required></label>
+            <label>GMD projetado<input id="newGmd" inputmode="decimal"></label>
+            <label>Consumo médio MS (kg/animal/dia)<input id="newConsumoMS" inputmode="decimal"></label>
+            <label>Dieta<input id="newDieta"></label>
+            <label>Modalidade
+              <select id="newModalidade" required>
+                <option value="">Selecione</option>
+                <option value="DIARIA">Diária</option>
+                <option value="ARROBA">Arroba Produzida</option>
+                <option value="MS">Consumo de MS</option>
+              </select>
+            </label>
+            <label id="fieldValorDiaria" class="conditional hidden">Valor da diária (R$)<input id="newValorDiaria" inputmode="decimal"></label>
+            <label id="fieldValorArroba" class="conditional hidden">Valor da arroba produzida (R$)<input id="newValorArroba" inputmode="decimal"></label>
+            <label id="fieldValorKgMS" class="conditional hidden">Valor do kg de MS (R$)<input id="newValorKgMS" inputmode="decimal"></label>
+            <label id="fieldConsumoTotalMS" class="conditional hidden">Consumo total acumulado de MS (kg)<input id="newConsumoTotalMS" inputmode="decimal" value="0"></label>
+            <button class="primary full" type="submit">Criar lote</button>
+          </form>
+          <div id="newLotMessage" class="message"></div>
+        </section>
+      </section>
+
+      <section id="lotView" class="view">
+        <section class="card">
+          <div class="section-title"><span>Consulta</span><h2>Localizar lote</h2></div>
+          <form id="searchForm" class="grid two">
+            <label>Curral<input id="searchCurral" required></label>
+            <label>Carimbo<input id="searchCarimbo" required></label>
+            <button class="primary full" type="submit">Buscar lote</button>
+          </form>
+          <div id="searchMessage" class="message"></div>
+        </section>
+
+        <section id="lotSection" class="hidden">
+          <section class="card summary">
+            <div><span>Cliente</span><strong id="summaryCliente">—</strong></div>
+            <div><span>Lote</span><strong id="summaryLote">—</strong></div>
+            <div><span>ID</span><strong id="summaryId">—</strong></div>
+            <div><span>Cabeças atuais</span><strong id="summaryCabecas">—</strong></div>
+          </section>
+          <section class="card">
+            <div class="section-title"><span>Atualização</span><h2>Dados do lote</h2></div>
+            <form id="lotForm" class="grid two">
+              <label>Animais doentes<input id="animaisDoentes" type="number" min="0"></label>
+              <label>Na enfermaria<input id="animaisEnfermaria" type="number" min="0"></label>
+              <label>Consumo médio MS<input id="consumoMS" inputmode="decimal"></label>
+              <label>GMD projetado<input id="gmdProjetado" inputmode="decimal"></label>
+              <label>Dieta<input id="dieta"></label>
+              <label>Status<select id="status"><option>Ativo</option><option>Encerrado</option></select></label>
+              <label>Previsão de abate<input id="dataAbate" type="date"></label>
+              <label>Peso final real (kg)<input id="pesoFinalRealKg" inputmode="decimal"></label>
+              <label>Rendimento final (%)<input id="rendimentoFinal" inputmode="decimal"></label>
+              <label>Cabeças finais<input id="cabecasFinais" type="number" min="0"></label>
+              <button class="primary full" type="submit">Salvar alterações</button>
+              <button id="archiveButton" class="danger full" type="button">Arquivar lote</button>
+            </form>
+            <div id="lotMessage" class="message"></div>
+          </section>
+        </section>
+      </section>
+
+      <section id="movementView" class="view">
+        <section class="card selected-card"><span>Lote selecionado</span><strong id="movementLotTitle">Busque um lote primeiro</strong></section>
+        <section id="movementForms" class="hidden">
+          <section class="card">
+            <div class="section-title"><span>Movimentação</span><h2>Registrar evento</h2></div>
+            <form id="movementForm" class="grid two">
+              <label>Data<input id="movData" type="date" required></label>
+              <label>Tipo
+                <select id="movTipo" required>
+                  <option value="">Selecione</option>
+                  <option value="MORTE">Morte</option>
+                  <option value="MUDANCA_CURRAL">Mudança de curral</option>
+                  <option value="SAIDA">Saída</option>
+                  <option value="ENTRADA_ADICIONAL">Entrada adicional</option>
+                </select>
+              </label>
+              <label id="movQuantidadeField">Quantidade<input id="movQuantidade" type="number" min="1"></label>
+              <label id="movCurralField" class="hidden">Novo curral<input id="movCurralNovo"></label>
+              <label class="full">Motivo<input id="movMotivo"></label>
+              <label class="full">Observações<textarea id="movObservacoes" rows="3"></textarea></label>
+              <button class="primary full" type="submit">Registrar movimentação</button>
+            </form>
+            <div id="movementMessage" class="message"></div>
+          </section>
+          <section class="card">
+            <div class="section-title"><span>Histórico</span><h2>Movimentações</h2></div>
+            <div id="movementHistory" class="history"><p class="empty">Nenhuma movimentação.</p></div>
+          </section>
+        </section>
+      </section>
+
+      <section id="financeView" class="view">
+        <section class="card selected-card"><span>Lote selecionado</span><strong id="financeLotTitle">Busque um lote primeiro</strong></section>
+        <section id="financeForms" class="hidden">
+          <div class="metrics finance-metrics">
+            <article><span>Receita modalidade</span><strong id="fReceita">—</strong></article>
+            <article><span>Protocolo</span><strong id="fProtocolo">—</strong></article>
+            <article><span>Sanidade</span><strong id="fSanidade">—</strong></article>
+            <article><span>Total</span><strong id="fTotal">—</strong></article>
+          </div>
+          <section class="card">
+            <div class="section-title"><span>Parâmetros</span><h2>Atualizar financeiro</h2></div>
+            <form id="financeForm" class="grid two">
+              <label>Valor diária (R$)<input id="finValorDiaria" inputmode="decimal"></label>
+              <label>Valor arroba (R$)<input id="finValorArroba" inputmode="decimal"></label>
+              <label>Valor kg MS (R$)<input id="finValorKgMS" inputmode="decimal"></label>
+              <label>Consumo total MS (kg)<input id="finConsumoTotalMS" inputmode="decimal"></label>
+              <button class="primary full" type="submit">Atualizar e recalcular</button>
+            </form>
+            <div id="financeMessage" class="message"></div>
+          </section>
+          <section class="card">
+            <div class="section-title"><span>Cálculo</span><h2>Memória financeira</h2></div>
+            <pre id="financeMemory" class="memory">—</pre>
+          </section>
+        </section>
+      </section>
+
+      <section id="healthView" class="view">
+        <section class="card selected-card"><span>Lote selecionado</span><strong id="healthLotTitle">Busque um lote primeiro</strong></section>
+        <section id="healthForms" class="hidden">
+          <section class="card">
+            <div class="section-title"><span>Sanidade</span><h2>Registrar tratamento</h2></div>
+            <form id="treatmentForm" class="grid two">
+              <label>Data<input id="tratData" type="date" required></label>
+              <label>Quantidade de animais<input id="tratQuantidade" type="number" min="1" required></label>
+              <label>Produto<input id="tratProduto" required></label>
+              <label>Dose por animal (ml)<input id="tratDose" inputmode="decimal" required></label>
+              <label>Volume total (ml)<input id="tratVolume" inputmode="decimal" required></label>
+              <label>Custo total (R$)<input id="tratCusto" inputmode="decimal" required></label>
+              <label class="full">Motivo<input id="tratMotivo" required></label>
+              <label class="full">Observações<textarea id="tratObservacoes" rows="3"></textarea></label>
+              <button class="primary full" type="submit">Registrar tratamento</button>
+            </form>
+            <div id="treatmentMessage" class="message"></div>
+          </section>
+          <section class="card">
+            <div class="section-title"><span>Histórico</span><h2>Tratamentos</h2></div>
+            <div id="treatmentHistory" class="history"><p class="empty">Nenhum tratamento.</p></div>
+          </section>
+        </section>
+      </section>
+    </section>
+
+    <footer><strong>Limão Azedo Confinamento</strong><span>Painel administrativo V5</span></footer>
+  </main>
+  <div id="loading" class="loading hidden"><div class="spinner"></div><p>Processando...</p></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

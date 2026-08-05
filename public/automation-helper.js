@@ -269,14 +269,29 @@ function numeroRelatorioV65(valor) {
 }
 
 function normalizarCurralArquivoV65(valor) {
-  const numero = String(valor || '')
-    .toUpperCase()
-    .replace('BOX', '')
-    .replace(/[^0-9]/g, '');
+  const texto = String(valor || '')
+    .trim()
+    .toUpperCase();
 
-  if (!numero) return '';
+  /*
+   * Captura somente o primeiro número depois de BOX.
+   *
+   * Exemplos:
+   * BOX 18       → 18
+   * BOX 18 [1]   → 18
+   * BOX 04       → 04
+   */
+  const encontrado = texto.match(
+    /\bBOX\s*0*(\d{1,2})\b/i
+  );
 
-  const curral = Number(numero);
+  if (!encontrado) {
+    return '';
+  }
+
+  const curral = Number(
+    encontrado[1]
+  );
 
   if (
     !Number.isInteger(curral) ||
@@ -286,7 +301,10 @@ function normalizarCurralArquivoV65(valor) {
     return '';
   }
 
-  return String(curral).padStart(2, '0');
+  return String(curral).padStart(
+    2,
+    '0'
+  );
 }
 
 function renderizarPreviaAutomacaoV65(registros) {

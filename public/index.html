@@ -242,49 +242,80 @@
               <label id="financeMSPriceGroup" class="hidden">Valor do kg de MS (R$)<input id="financeMSPrice" inputmode="decimal"></label>
               <label id="financeMSTotalGroup" class="hidden">Consumo total acumulado de MS (kg)<input id="financeMSTotal" inputmode="decimal"></label>
 
-              <label>Frete negociado?
-                <select id="financeFreightActive">
-                  <option value="NAO">Não</option>
-                  <option value="SIM">Sim</option>
-                </select>
-              </label>
+              <div class="finance-panel full freight-panel">
+                <div class="finance-panel-head">
+                  <div>
+                    <span class="finance-kicker">Frete</span>
+                    <h3>Transporte do lote</h3>
+                    <p>Ative somente quando o frete fizer parte da negociação deste lote.</p>
+                  </div>
+                  <label class="compact-field">Frete negociado?
+                    <select id="financeFreightActive">
+                      <option value="NAO">Não</option>
+                      <option value="SIM">Sim</option>
+                    </select>
+                  </label>
+                </div>
 
-              <label id="financeFreightDateGroup" class="hidden">Data do frete
-                <input id="financeFreightDate" type="date">
-              </label>
+                <div class="freight-fields">
+                  <label id="financeFreightDateGroup" class="hidden">Data do frete
+                    <input id="financeFreightDate" type="date">
+                  </label>
 
-              <label id="financeFreightDistanceGroup" class="hidden">Distância percorrida (km)
-                <input id="financeFreightDistance" inputmode="decimal">
-              </label>
+                  <label id="financeFreightDistanceGroup" class="hidden">Distância percorrida
+                    <div class="input-suffix"><input id="financeFreightDistance" inputmode="decimal"><span>km</span></div>
+                  </label>
 
-              <label id="financeFreightKmValueGroup" class="hidden">Valor por km (R$)
-                <input id="financeFreightKmValue" inputmode="decimal">
-              </label>
+                  <label id="financeFreightKmValueGroup" class="hidden">Valor por km
+                    <div class="input-prefix"><span>R$</span><input id="financeFreightKmValue" inputmode="decimal"></div>
+                  </label>
 
-              <label id="financeFreightTotalGroup" class="hidden">Total do frete
-                <input id="financeFreightTotal" readonly>
-              </label>
-
-              <div class="full">
-                <div class="section-title"><span>Pagamentos</span><h2>Status das cobranças</h2></div>
+                  <label id="financeFreightTotalGroup" class="hidden freight-total-field">Total do frete
+                    <input id="financeFreightTotal" readonly>
+                  </label>
+                </div>
               </div>
 
-              <label>
-                <input id="financeProtocolPaid" type="checkbox">
-                Protocolo sanitário pago
-              </label>
+              <div class="finance-panel full payments-panel">
+                <div class="finance-panel-head payments-head">
+                  <div>
+                    <span class="finance-kicker">Pagamentos</span>
+                    <h3>Status das cobranças</h3>
+                    <p>Marque individualmente o que já foi recebido deste lote.</p>
+                  </div>
+                </div>
 
-              <label>
-                <input id="financeHealthPaid" type="checkbox">
-                Sanidade paga
-              </label>
+                <div class="payment-options">
+                  <label class="payment-option">
+                    <span class="payment-copy">
+                      <strong>Protocolo sanitário</strong>
+                      <small>Vacinas e protocolo de entrada</small>
+                    </span>
+                    <input id="financeProtocolPaid" type="checkbox">
+                    <span class="payment-switch" aria-hidden="true"></span>
+                  </label>
 
-              <label id="financeFreightPaidGroup" class="hidden">
-                <input id="financeFreightPaid" type="checkbox">
-                Frete pago
-              </label>
+                  <label class="payment-option">
+                    <span class="payment-copy">
+                      <strong>Sanidade</strong>
+                      <small>Tratamentos realizados no lote</small>
+                    </span>
+                    <input id="financeHealthPaid" type="checkbox">
+                    <span class="payment-switch" aria-hidden="true"></span>
+                  </label>
 
-              <button class="primary full" type="submit">Salvar e recalcular financeiro</button>
+                  <label id="financeFreightPaidGroup" class="payment-option hidden">
+                    <span class="payment-copy">
+                      <strong>Frete</strong>
+                      <small>Transporte negociado para o lote</small>
+                    </span>
+                    <input id="financeFreightPaid" type="checkbox">
+                    <span class="payment-switch" aria-hidden="true"></span>
+                  </label>
+                </div>
+              </div>
+
+              <button class="primary full finance-save-button" type="submit">Salvar financeiro</button>
             </form>
             <div id="financeMessage" class="message"></div>
           </section>

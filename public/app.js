@@ -181,7 +181,7 @@ async function addLot(event) {
       throw new Error("O lote foi criado, mas não pôde ser recarregado.");
     }
 
-    currentLot = data.resultado;
+    currentLot = normalizeLot(data.resultado);
     document.getElementById("addLotForm").reset();
     setValue("searchCurral", currentLot.curral);
     setValue("searchCarimbo", currentLot.carimbo);
@@ -217,7 +217,7 @@ async function searchLot(event) {
       throw new Error("Lote não encontrado.");
     }
 
-    currentLot = data.resultado;
+    currentLot = normalizeLot(data.resultado);
     displayCurrentLot();
     showMessage("searchMessage", "Lote carregado.", "success");
   } catch (error) {
@@ -231,17 +231,158 @@ async function searchLot(event) {
   }
 }
 
+/**
+ * Normaliza a resposta do Apps Script.
+ * A planilha retorna campos como Cliente, Curral, Carimbo e ID.
+ * O painel usa cliente, curral, carimbo e id.
+ */
+function normalizeLot(raw) {
+  raw = raw || {};
+
+  return {
+    ...raw,
+
+    id:
+      raw.id ??
+      raw.ID ??
+      raw.IDLote ??
+      "",
+
+    curral:
+      raw.curral ??
+      raw.Curral ??
+      "",
+
+    carimbo:
+      raw.carimbo ??
+      raw.Carimbo ??
+      "",
+
+    cliente:
+      raw.cliente ??
+      raw.Cliente ??
+      "",
+
+    lote:
+      raw.lote ??
+      raw.Lote ??
+      raw.ID ??
+      raw.IDLote ??
+      "",
+
+    cabecasIniciais:
+      raw.cabecasIniciais ??
+      raw.CabecasIniciais ??
+      0,
+
+    cabecasAtuais:
+      raw.cabecasAtuais ??
+      raw.CabecasAtuais ??
+      0,
+
+    mortes:
+      raw.mortes ??
+      raw.Mortes ??
+      0,
+
+    animaisDoentes:
+      raw.animaisDoentes ??
+      raw.AnimaisDoentes ??
+      0,
+
+    animaisEnfermaria:
+      raw.animaisEnfermaria ??
+      raw.AnimaisEnfermaria ??
+      0,
+
+    consumoMS:
+      raw.consumoMS ??
+      raw.ConsumoMSKg ??
+      "",
+
+    gmdProjetado:
+      raw.gmdProjetado ??
+      raw.GMDProjetado ??
+      "",
+
+    dieta:
+      raw.dieta ??
+      raw.Dieta ??
+      "",
+
+    modalidade:
+      raw.modalidade ??
+      raw.Modalidade ??
+      "",
+
+    status:
+      raw.status ??
+      raw.Status ??
+      "",
+
+    ativoApp:
+      raw.ativoApp ??
+      raw.AtivoApp ??
+      "",
+
+    dataEntrada:
+      raw.dataEntrada ??
+      raw.DataEntrada ??
+      "",
+
+    dataAbate:
+      raw.dataAbate ??
+      raw.DataAbate ??
+      "",
+
+    pesoEntrada:
+      raw.pesoEntrada ??
+      raw.PesoEntradaKg ??
+      "",
+
+    pesoFinalRealKg:
+      raw.pesoFinalRealKg ??
+      raw.PesoFinalRealKg ??
+      "",
+
+    rendimentoCarcacaFinalPct:
+      raw.rendimentoCarcacaFinalPct ??
+      raw.RendimentoCarcacaFinalPct ??
+      "",
+
+    cabecasFinais:
+      raw.cabecasFinais ??
+      raw.CabecasFinais ??
+      "",
+
+    sanidade:
+      raw.sanidade || {
+        tratamentos: []
+      },
+
+    movimentacoes:
+      Array.isArray(raw.movimentacoes)
+        ? raw.movimentacoes
+        : [],
+
+    financeiro:
+      raw.financeiro || null
+  };
+}
+
+
 function displayCurrentLot() {
+  currentLot = normalizeLot(currentLot);
   fillLot(currentLot);
   renderHistory(currentLot.sanidade?.tratamentos || []);
   renderMovements(currentLot.movimentacoes || []);
   fillFinance(currentLot.financeiro || {});
   document.getElementById("lotSection").classList.remove("hidden");
   document.getElementById("sanidadeForms").classList.remove("hidden");
-  text("sanidadeLoteTitulo", `${currentLot.cliente || "Cliente"} — ${currentLot.lote || currentLot.id}`);
-  text("sanidadeAjuda", `Curral ${currentLot.curral} • Carimbo ${currentLot.carimbo}`);
-  text("financeLotTitle", `${currentLot.cliente || "Cliente"} — ${currentLot.lote || currentLot.id}`);
-  text("financeHelp", `Curral ${currentLot.curral} • Carimbo ${currentLot.carimbo}`);
+  text("sanidadeLoteTitulo", `${currentLot.cliente || "Cliente"} — ${currentLot.lote || currentLot.id || "Lote"}`);
+  text("sanidadeAjuda", `Curral ${currentLot.curral || "—"} • Carimbo ${currentLot.carimbo || "—"}`);
+  text("financeLotTitle", `${currentLot.cliente || "Cliente"} — ${currentLot.lote || currentLot.id || "Lote"}`);
+  text("financeHelp", `Curral ${currentLot.curral || "—"} • Carimbo ${currentLot.carimbo || "—"}`);
   document.getElementById("financeForms").classList.remove("hidden");
 }
 
@@ -271,7 +412,7 @@ async function updateLot(event) {
       }
     });
 
-    currentLot = data.resultado || currentLot;
+    currentLot = normalizeLot(data.resultado || currentLot);
     fillLot(currentLot);
     showMessage("lotMessage", "Dados atualizados com sucesso.", "success");
     await loadDashboard();
@@ -419,7 +560,7 @@ async function registerDeath(event) {
       motivo: value("deathReason"),
       observacoes: value("deathNotes")
     });
-    currentLot = data.resultado;
+    currentLot = normalizeLot(data.resultado);
     document.getElementById("deathForm").reset();
     displayCurrentLot();
     showMessage("deathMessage", "Morte registrada e financeiro recalculado.", "success");
@@ -441,7 +582,7 @@ async function movePen(event) {
       motivo: value("movePenReason"),
       observacoes: value("movePenNotes")
     });
-    currentLot = data.resultado;
+    currentLot = normalizeLot(data.resultado);
     document.getElementById("movePenForm").reset();
     setValue("searchCurral", currentLot.curral);
     displayCurrentLot();

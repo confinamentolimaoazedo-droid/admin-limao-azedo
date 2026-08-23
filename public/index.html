@@ -235,21 +235,34 @@
           </div>
           <section class="card">
             <div class="section-title"><span>Contrato</span><h2>Parâmetros financeiros</h2></div>
-            <form id="financeForm" class="grid two">
-              <label>Modalidade<input id="financeMode" readonly></label>
-              <label id="financeDailyGroup" class="hidden">Valor da diária (R$)<input id="financeDaily" inputmode="decimal"></label>
-              <label id="financeArrobaGroup" class="hidden">Valor da arroba produzida (R$)<input id="financeArroba" inputmode="decimal"></label>
-              <label id="financeMSPriceGroup" class="hidden">Valor do kg de MS (R$)<input id="financeMSPrice" inputmode="decimal"></label>
-              <label id="financeMSTotalGroup" class="hidden">Consumo total acumulado de MS (kg)<input id="financeMSTotal" inputmode="decimal"></label>
+            <form id="financeForm" class="finance-form">
+              <div class="finance-contract-grid">
+                <label>Modalidade
+                  <input id="financeMode" readonly>
+                </label>
+                <label id="financeDailyGroup" class="hidden">Valor da diária (R$)
+                  <input id="financeDaily" inputmode="decimal">
+                </label>
+                <label id="financeArrobaGroup" class="hidden">Valor da arroba produzida (R$)
+                  <input id="financeArroba" inputmode="decimal">
+                </label>
+                <label id="financeMSPriceGroup" class="hidden">Valor do kg de MS (R$)
+                  <input id="financeMSPrice" inputmode="decimal">
+                </label>
+                <label id="financeMSTotalGroup" class="hidden">Consumo total acumulado de MS (kg)
+                  <input id="financeMSTotal" inputmode="decimal">
+                </label>
+              </div>
 
-              <div class="finance-panel full freight-panel">
-                <div class="finance-panel-head">
+              <section class="finance-box">
+                <div class="finance-box-head">
                   <div>
-                    <span class="finance-kicker">Frete</span>
-                    <h3>Transporte do lote</h3>
-                    <p>Ative somente quando o frete fizer parte da negociação deste lote.</p>
+                    <span class="finance-eyebrow">TRANSPORTE</span>
+                    <h3>Frete do lote</h3>
+                    <p>Ative somente quando o frete tiver sido negociado com o cliente.</p>
                   </div>
-                  <label class="compact-field">Frete negociado?
+                  <label class="freight-select">
+                    <span>Frete negociado?</span>
                     <select id="financeFreightActive">
                       <option value="NAO">Não</option>
                       <option value="SIM">Sim</option>
@@ -257,65 +270,71 @@
                   </label>
                 </div>
 
-                <div class="freight-fields">
+                <div class="freight-grid">
                   <label id="financeFreightDateGroup" class="hidden">Data do frete
                     <input id="financeFreightDate" type="date">
                   </label>
 
                   <label id="financeFreightDistanceGroup" class="hidden">Distância percorrida
-                    <div class="input-suffix"><input id="financeFreightDistance" inputmode="decimal"><span>km</span></div>
+                    <div class="field-with-unit">
+                      <input id="financeFreightDistance" inputmode="decimal" placeholder="Ex.: 464">
+                      <span>km</span>
+                    </div>
                   </label>
 
                   <label id="financeFreightKmValueGroup" class="hidden">Valor por km
-                    <div class="input-prefix"><span>R$</span><input id="financeFreightKmValue" inputmode="decimal"></div>
+                    <div class="field-with-prefix">
+                      <span>R$</span>
+                      <input id="financeFreightKmValue" inputmode="decimal" placeholder="Ex.: 5,00">
+                    </div>
                   </label>
 
-                  <label id="financeFreightTotalGroup" class="hidden freight-total-field">Total do frete
+                  <label id="financeFreightTotalGroup" class="hidden freight-total">Total do frete
                     <input id="financeFreightTotal" readonly>
                   </label>
                 </div>
-              </div>
+              </section>
 
-              <div class="finance-panel full payments-panel">
-                <div class="finance-panel-head payments-head">
+              <section class="finance-box payments-box">
+                <div class="finance-box-head payments-title">
                   <div>
-                    <span class="finance-kicker">Pagamentos</span>
+                    <span class="finance-eyebrow">PAGAMENTOS</span>
                     <h3>Status das cobranças</h3>
-                    <p>Marque individualmente o que já foi recebido deste lote.</p>
+                    <p>Marque somente o que já foi efetivamente pago pelo cliente.</p>
                   </div>
                 </div>
 
-                <div class="payment-options">
-                  <label class="payment-option">
-                    <span class="payment-copy">
+                <div class="payment-grid">
+                  <label class="payment-card" for="financeProtocolPaid">
+                    <div>
                       <strong>Protocolo sanitário</strong>
                       <small>Vacinas e protocolo de entrada</small>
-                    </span>
+                    </div>
                     <input id="financeProtocolPaid" type="checkbox">
-                    <span class="payment-switch" aria-hidden="true"></span>
+                    <span class="toggle-ui" aria-hidden="true"></span>
                   </label>
 
-                  <label class="payment-option">
-                    <span class="payment-copy">
+                  <label class="payment-card" for="financeHealthPaid">
+                    <div>
                       <strong>Sanidade</strong>
-                      <small>Tratamentos realizados no lote</small>
-                    </span>
+                      <small>Tratamentos sanitários do lote</small>
+                    </div>
                     <input id="financeHealthPaid" type="checkbox">
-                    <span class="payment-switch" aria-hidden="true"></span>
+                    <span class="toggle-ui" aria-hidden="true"></span>
                   </label>
 
-                  <label id="financeFreightPaidGroup" class="payment-option hidden">
-                    <span class="payment-copy">
+                  <label id="financeFreightPaidGroup" class="payment-card hidden" for="financeFreightPaid">
+                    <div>
                       <strong>Frete</strong>
                       <small>Transporte negociado para o lote</small>
-                    </span>
+                    </div>
                     <input id="financeFreightPaid" type="checkbox">
-                    <span class="payment-switch" aria-hidden="true"></span>
+                    <span class="toggle-ui" aria-hidden="true"></span>
                   </label>
                 </div>
-              </div>
+              </section>
 
-              <button class="primary full finance-save-button" type="submit">Salvar financeiro</button>
+              <button class="primary finance-submit" type="submit">Salvar financeiro</button>
             </form>
             <div id="financeMessage" class="message"></div>
           </section>

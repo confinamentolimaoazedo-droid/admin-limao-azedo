@@ -309,3 +309,138 @@ footer strong{display:block;color:var(--dark)}
 .finance-submit{width:100%;min-height:54px!important;border-radius:14px!important;font-size:15px;box-shadow:0 8px 18px rgba(8,120,62,.17)}
 @media(max-width:900px){.freight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.payment-grid{grid-template-columns:1fr}}
 @media(max-width:650px){.finance-contract-grid,.freight-grid{grid-template-columns:1fr}.finance-box-head{align-items:stretch;flex-direction:column}.freight-select{width:100%;flex-basis:auto}.finance-box{padding:15px}}
+
+
+/* =========================================================
+   AUTOMAÇÃO V6.8.6
+   ========================================================= */
+
+#automationView .card{
+  overflow:hidden;
+}
+
+#automationView .automation-description{
+  margin:-4px 0 18px;
+  max-width:780px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;
+}
+
+#automationView .automation-file{
+  padding:14px;
+  border:1px dashed #b9cec1;
+  border-radius:15px;
+  background:#f8fbf9;
+}
+
+#automationView input[type="file"]{
+  height:auto;
+  min-height:48px;
+  padding:9px;
+  background:#fff;
+}
+
+#automationView input[type="file"]::file-selector-button{
+  margin-right:10px;
+  padding:9px 12px;
+  border:0;
+  border-radius:10px;
+  background:var(--soft);
+  color:var(--dark);
+  font-weight:800;
+  cursor:pointer;
+}
+
+.automation-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+
+.automation-actions button{
+  min-width:180px;
+  padding:0 16px;
+}
+
+.automation-preview{
+  margin-top:14px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:#fff;
+}
+
+.automation-preview-summary{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.automation-preview-summary strong{
+  color:var(--dark);
+}
+
+.automation-preview-summary span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.automation-table-wrapper{
+  width:100%;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:12px;
+  -webkit-overflow-scrolling:touch;
+}
+
+.automation-table{
+  width:100%;
+  min-width:720px;
+  border-collapse:collapse;
+  background:#fff;
+}
+
+.automation-table th,
+.automation-table td{
+  padding:10px 11px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  white-space:nowrap;
+  font-size:12px;
+}
+
+.automation-table th{
+  position:sticky;
+  top:0;
+  z-index:1;
+  background:#075f35;
+  color:#fff;
+  font-size:11px;
+}
+
+.automation-table tbody tr:last-child td{
+  border-bottom:0;
+}
+
+#automationView .history-item{
+  align-items:flex-start;
+}
+
+@media(max-width:520px){
+  .automation-actions{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .automation-actions button{
+    width:100%;
+    min-width:0;
+  }
+
+  #automationView .card{
+    padding:18px;
+  }
+}
